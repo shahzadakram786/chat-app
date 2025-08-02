@@ -17,7 +17,7 @@ const ConvexProviderClient = ({children}: Props) => {
   return (
     <ClerkProvider>
 
-        <ConvexProviderWithClerk useAuth={useAuth} client={convex}>
+        <ConvexProviderWithClerk  client={convex} useAuth={useAuth}>
             {children}
         </ConvexProviderWithClerk>
 
