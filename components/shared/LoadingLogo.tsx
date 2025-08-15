@@ -1,21 +1,22 @@
+// components/shared/LoadingLogo.tsx
 import Image from "next/image";
+import React from "react";
 
-type Props = {
-    size?: number;
-}
-
-const LoadingLogo = ({size = 100 }: Props) => {
+const LoadingLogo = () => {
   return (
-    <div className="h-full w-full flex justify-center items-center">
-        <Image
-            src="/logo.svg"
-            alt="Loading Logo"
-            width={size}
-            height={size}
-            className="animate-pulse duration-200"
-        />    
+    <div className="w-full h-screen flex items-center justify-center">
+      <Image
+        src="/logo.svg"
+        alt="loading logo"
+        width={120}
+        height={120}
+        className="animate-pulse duration-700"
+        priority
+        // Fix aspect ratio warning
+        style={{ width: 'auto', height: 'auto' }}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default LoadingLogo
+export default LoadingLogo;
