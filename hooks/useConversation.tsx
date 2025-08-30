@@ -1,7 +1,7 @@
 import { useParams } from 'next/navigation'
 import React, { useMemo } from 'react'
 
-type Props = {}
+// type Props = {}
 
 const useConversation = () => {
   

@@ -11,15 +11,15 @@ export const useNavigation = () => {
         {
             name: 'Conversations',
             href: '/conversations',
-            icon: <MessageSquare/>,
+            icon: MessageSquare,
             active: pathname.startsWith('/conversations'),
              
         },
         {
             name: 'Friends',
             href: '/friends',
-            icon: <Users/>,
-            active: pathname.startsWith('/friends'),
+            icon: Users,
+            active: pathname.startsWith('/friends'), // Use startsWith for nested routes
         }
      ],[pathname])
 
