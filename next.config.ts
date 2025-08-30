@@ -9,11 +9,11 @@ const nextConfig: NextConfig = {
         destination: '/conversations',
         permanent: true,
       },
-      {
-        source: '/friends',
-        destination: '/friends/page',
-        permanent: true,
-      },
+      // {
+      //   source: '/friends',
+      //   destination: '/friends',
+      //   permanent: false,
+      // },
     ];
     
   }
