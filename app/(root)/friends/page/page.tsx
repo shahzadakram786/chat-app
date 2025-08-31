@@ -8,7 +8,7 @@ const FriendsPage = (props: Props) => {
   return (
     <>
       <ItemList title='Friends'>
-Friends page
+Friends page 2
       </ItemList>
       <ConversationFallback />
     </>
