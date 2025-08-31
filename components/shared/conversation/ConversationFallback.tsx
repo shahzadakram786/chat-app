@@ -1,11 +1,12 @@
 import { Card } from '@/components/ui/card'
 import React from 'react'
 
-type Props = {}
 
-const ConversationFallback = (props: Props) => {
+const ConversationFallback = () => {
   return (
-    <Card className='hidden lg-flex h-full w-full p-2 items-center justify-center bg-secondary text-secondary-foreground'>
+    <Card className='hidden lg:flex lg:h-full lg:w-full p-2
+    lg:min-h-[800px]
+    items-center justify-center bg-secondary text-secondary-foreground'>
         Select/ start a conversation to get started.
     </Card>
   )

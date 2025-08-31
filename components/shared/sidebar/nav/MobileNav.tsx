@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import useConversation from '@/hooks/useConversation';
 import { useNavigation } from '@/hooks/useNavigation';
 import { UserButton } from '@clerk/nextjs';
 import { Tooltip } from '@radix-ui/react-tooltip';
@@ -11,6 +12,9 @@ import React from 'react';
 
 const MobileNav = () => {
   const paths = useNavigation();
+  const {isActive} = useConversation();
+
+  if (isActive) return null;
 
   return (
     <Card className='fixed lg:hidden bottom-4 w-[calc(100vw-32px)]
