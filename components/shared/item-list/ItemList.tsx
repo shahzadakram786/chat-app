@@ -14,11 +14,10 @@ const ItemList = ({children , title , action : Action}: Props) => {
 
   const {isActive} = useConversation();
   return (
-    <Card className={cn("hidden h-full w-full lg:flex-none lg:w-80 p-2",
-     {
-      block:!isActive ,
-      "lg:block":isActive 
-      })}>
+    <Card className={cn("h-full w-full lg:flex-none lg:w-80 p-2  border-0 lg:border-r lg:rounded-none ",
+     
+      isActive ? 'hidden lg:block' : 'block'
+      )}>
         <div className='
         mb-4 flex items-center justify-between'>
             <h1 className='text-2xl font-semibold tracking-tight'>

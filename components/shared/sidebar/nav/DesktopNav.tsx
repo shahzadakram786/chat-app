@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { ThemeToggle } from '@/components/ui/theme/theme-toggle';
 import { TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useNavigation } from '@/hooks/useNavigation';
 import { UserButton } from '@clerk/nextjs';
@@ -13,7 +14,7 @@ const DesktopNav = () => {
   const paths = useNavigation();
 
   return (
-    <Card className='hidden lg:flex lg:flex-col lg:justify-between lg:items-center lg:h-full lg:w-16 lg:px-2 lg:py-4'>
+    <Card className='hidden lg:h-full min-h-[300px] lg:flex lg:flex-col lg:justify-between lg:items-center  lg:w-16 lg:px-2 lg:py-4'>
       
       {/* nav */}
       <nav>
@@ -30,7 +31,9 @@ const DesktopNav = () => {
           <TooltipTrigger asChild>
             <Button 
               size="icon"
-              variant={path.active ? 'default' : 'outline'}
+              variant={path.active ? 'secondary' : 'outline'}
+              className={path.active ? "bg-blue-400 text-primary-foreground" : ""} // Force styles
+              
             >
               <IconComponent /> {/* Render the component */}
               </Button>
@@ -46,6 +49,7 @@ const DesktopNav = () => {
         </ul>
       </nav>
       <div className='flex flex-col gap-4 items-center'>
+        <ThemeToggle/>
         <UserButton />
       </div>
     </Card>

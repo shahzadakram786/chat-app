@@ -5,7 +5,7 @@ import React from 'react'
 const ConversationFallback = () => {
   return (
     <Card className='hidden lg:flex lg:h-full lg:w-full p-2
-    lg:min-h-[800px]
+    lg:min-h-[300px]
     items-center justify-center bg-secondary text-secondary-foreground'>
         Select/ start a conversation to get started.
     </Card>
