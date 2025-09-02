@@ -1,3 +1,5 @@
+import ConversationContainer from '@/components/shared/conversation/ConversationContainer'
+import ConversationFallback from '@/components/shared/conversation/ConversationFallback'
 import ItemList from '@/components/shared/item-list/ItemList'
 import React from 'react'
 
@@ -10,7 +12,8 @@ const ConversationsLayout = ({children}: Props) => {
       title='Conversations'>
       Conversations Page
     </ItemList>
-    {children}</>
+      {children}
+    </>
   )
 }
 

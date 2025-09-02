@@ -5,9 +5,7 @@ import React from 'react'
 type Props = {}
 
 const ConversationPage = (props: Props) => {
-  return <ConversationContainer>
-    COnversation page 
-  </ConversationContainer>
+  return <ConversationFallback />
 }
 
 export default ConversationPage
