@@ -82,3 +82,6 @@ http.route({
     method: "POST",
     handler: handleClerkWebhook,
 })
+
+
+export default http
