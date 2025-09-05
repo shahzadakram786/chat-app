@@ -1,5 +1,7 @@
+// 'use client'
+
 import { useMutation } from "convex/react";
-import { use, useState } from "react"
+import { useState } from "react"
 
 export const useMutationState = (mutationToRun: any ) => {
 
@@ -7,6 +9,24 @@ export const useMutationState = (mutationToRun: any ) => {
     
     
     
-    // const mutationFn  = useMutation();
+    const mutationFn  = useMutation(mutationToRun);
+
+
+    const mutate = (payload: any) => {
+
+        setPending(true)
+
+        return mutationFn(payload)
+        .then((res) => {
+            return res;
+        })
+        .catch((error)=> { 
+            throw error 
+        })
+        .finally(()=> setPending(false)) 
+
+    };
+
+    return { mutate, pending }
 
 }
