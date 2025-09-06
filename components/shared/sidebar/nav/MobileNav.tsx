@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/ui/theme/theme-toggle";
@@ -31,32 +32,39 @@ const MobileNav = () => {
 
             return (
               <li key={id} className="relative">
-                <Link href={path.href}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="relative">
                       <Button
+                        asChild
                         size="icon"
                         variant={path.active ? "default" : "outline"}
+                        className="flex items-center justify-center"
                       >
-                        <IconComponent /> {/* Render the component */}
+                        <Link href={path.href} passHref>
+                          <IconComponent />
+                        </Link>
                       </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>{path.name}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </Link>
+                      
+                      {path.count && (
+                        <Badge className="absolute -top-2 -right-2 min-w-[20px] h-5 flex items-center justify-center p-1 bg-green-700 text-white rounded-full">
+                          {path.count}
+                        </Badge>
+                      )}
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{path.name}</p>
+                  </TooltipContent>
+                </Tooltip>
               </li>
             );
           })}
-
-          {/* jjjjjjjjjjjjjjjjj */}
 
           <li>
             <ThemeToggle/>
           </li>
           <li>
-            
             <UserButton />
           </li>
         </ul>

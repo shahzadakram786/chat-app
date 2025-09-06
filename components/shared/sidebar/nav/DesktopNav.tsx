@@ -1,5 +1,6 @@
 'use client'
 
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ThemeToggle } from '@/components/ui/theme/theme-toggle';
@@ -29,14 +30,25 @@ const DesktopNav = () => {
       <Link href={path.href}>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button 
-              size="icon"
-              variant={path.active ? 'secondary' : 'outline'}
-              className={path.active ? "bg-blue-400 text-primary-foreground" : ""} // Force styles
-              
-            >
-              <IconComponent /> {/* Render the component */}
-              </Button>
+               {/* Wrap Button and Badge in a div */}
+               <div className="relative">
+                      <Link href={path.href}>
+                        <Button 
+                          size="icon"
+                          variant={path.active ? 'secondary' : 'outline'}
+                          className={path.active ? "bg-blue-400 text-primary-foreground" : ""}
+                        >
+                          <IconComponent />
+                        </Button>
+                      </Link>
+                      
+                      {path.count && (
+                        <Badge className='absolute left-6 bottom-6 bg-green-700 text-white  rounded-full'>
+                          {path.count}
+                        </Badge>
+                      )}
+                    </div>
+        
           </TooltipTrigger>
           <TooltipContent>
             <p>{path.name}</p>
