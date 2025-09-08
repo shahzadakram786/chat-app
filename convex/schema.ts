@@ -28,4 +28,15 @@ export default defineSchema({
 
     .index("by_receiver", ["receiver"]) // Index to find requests by receiver
     .index("by_receiver_sender", ["receiver","sender"]), // Index to find requests by sender
+    
+    friends: defineTable({
+        user1: v.id("users"),
+        user: v.id("users"),
+        conversationId: v.id("conversations")
+    })
+    .index("by_user1" , ["user1"])
+    .index("by_user2" , ["user2"])
+    .index("by_conversationId" , ["conversationId"])
+
+
 });

@@ -6,7 +6,7 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useMutation } from "convex/react";
 import { ConvexError } from "convex/values";
 import { Check, User, X } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { toast } from "sonner";
 
 type Props = {
@@ -17,17 +17,47 @@ type Props = {
 };
 
 const Request = ({ id, imageUrl, username, email }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
 
-  // const {mutate: acceptRequest , pending: acceptPending} = useMutation
-  // (api.request.accept)
+  // These are the mutation functions directly
+  // const acceptRequest = useMutation(api.request.accept);
+  const denyRequest = useMutation(api.request.deny);
 
+  const handleAccept = async () => {
+    setIsLoading(true);
+    try {
+      // await acceptRequest({ id });
+      toast.success("Friend Request Accepted");
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof ConvexError 
+          ? error.data
+          : "Unexpected error occurred"
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-  const {mutate: denyRequest , pending: denyPending} = useMutation
-  (api.request.deny)
+  const handleDeny = async () => {
+    setIsLoading(true);
+    try {
+      await denyRequest({ id });
+      toast.success("Friend Request Denied");
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof ConvexError 
+          ? error.data
+          : "Unexpected error occurred"
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Card className="w-full p-2 flex flex-row items-center justify-between gap-2">
-      <div className=" flex items-center gap-4 truncate">
+      <div className="flex items-center gap-4 truncate">
         <Avatar>
           <AvatarImage src={imageUrl} />
           <AvatarFallback>
@@ -41,27 +71,19 @@ const Request = ({ id, imageUrl, username, email }: Props) => {
       </div>
       <div>
         {/* Accept / Decline Buttons */}
-        <Button size="icon" className="mr-2" disabled={
-          denyPending
-        } onClick={() => {}}>
+        <Button 
+          size="icon" 
+          className="mr-2" 
+          disabled={isLoading}
+          onClick={handleAccept}
+        >
           <Check />
         </Button>
-        <Button size="icon" disabled={
-          denyPending
-        }  onClick={() => {
-          denyRequest({id})
-          .then(() => {
-            toast.success("Friend Request Denied")
-          })
-          .catch((error) => {
-            toast.error(
-              error instanceof 
-              ConvexError 
-              ? error.data
-              : "Unexpected error occurred"
-            )
-          })
-        }}>
+        <Button 
+          size="icon" 
+          disabled={isLoading}
+          onClick={handleDeny}
+        >
           <X className="h-4 w-4" />
         </Button>
       </div>
