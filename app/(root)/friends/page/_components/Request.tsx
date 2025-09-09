@@ -20,13 +20,13 @@ const Request = ({ id, imageUrl, username, email }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
 
   // These are the mutation functions directly
-  // const acceptRequest = useMutation(api.request.accept);
+  const acceptRequest = useMutation(api.request.accept);
   const denyRequest = useMutation(api.request.deny);
 
   const handleAccept = async () => {
     setIsLoading(true);
     try {
-      // await acceptRequest({ id });
+      await acceptRequest({ id });
       toast.success("Friend Request Accepted");
     } catch (error: unknown) {
       toast.error(
