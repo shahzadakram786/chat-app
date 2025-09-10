@@ -29,7 +29,7 @@ const ConversationsLayout = ({children}: Props) => {
           </p> : conversations.map(
             conversations => {
               return conversations.conversation.isGroup ? null : (<DMConversationItem 
-                key={conversations.conversation._Id} id={conversations.conversation._Id}
+                key={conversations.conversation._id} id={conversations.conversation._id}
                 username={conversations.otherMember?.username || ""}
                 imageUrl={conversations.otherMember?.imageUrl || ""}/>)
             }
