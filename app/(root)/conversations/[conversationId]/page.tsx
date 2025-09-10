@@ -5,38 +5,28 @@ import { api } from '@/convex/_generated/api'
 import { Id } from '@/convex/_generated/dataModel'
 import { useQuery } from 'convex/react'
 import { Loader2 } from 'lucide-react'
-import React from 'react'
+import React, { use } from 'react'
 import Chatinput from './_components/input/Chatinput'
 import Body from './_components/body/Body'
 import Header from './_components/Header'
-
-// type Props = {
-//   params: Promise<{
-//     conversationId: Id<"conversations">
-//   }>
-// }
-
+import { redirect } from 'next/navigation'  // Import this for client-side redirect
 
 type Props = {
   params: Promise<{
-    conversationId: string;
+    conversationId: Id<"conversations">
   }>
 }
 
-const ConversationPage = async ({ params }: Props) => {
-  const { conversationId } = await params;
+const ConversationPage = ({ params }: Props) => {
+  const resolvedParams = use(params)
+  const conversationId = resolvedParams.conversationId
 
-  const conversation = useQuery(api.
-    conversation.get,{ id: conversationId as Id<"conversations"> })
-
-
-  if (!conversationId) {
-    return (
-      <div className='w-full h-full flex items-center justify-center'>
-        <Loader2 className='h-8 w-8'/>
-      </div>
-    )
+  // Early guard: Redirect if ID is invalid (prevents Convex query with bad arg)
+  if (!conversationId || conversationId === 'undefined') {
+    redirect('/conversations')  // Or wherever your list page is
   }
+
+  const conversation = useQuery(api.conversation.get, { id: conversationId })
 
   if (conversation === undefined) {
     return (
@@ -67,6 +57,3 @@ const ConversationPage = async ({ params }: Props) => {
 }
 
 export default ConversationPage
-
-
-
