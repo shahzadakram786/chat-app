@@ -34,7 +34,7 @@ const MobileNav = () => {
               <li key={id} className="relative">
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className="relative">
+                    <div className="relative flex">
                       <Button
                         asChild
                         size="icon"
@@ -47,7 +47,7 @@ const MobileNav = () => {
                       </Button>
                       
                       {path.count && (
-                        <Badge className="absolute -top-2 -right-2 min-w-[20px] h-5 flex items-center justify-center p-1 bg-green-700 text-white rounded-full">
+                        <Badge className="absolute top-0 right-2 min-w-[20px] h-5 flex items-center justify-center p-1 bg-green-700 text-white rounded-full">
                           {path.count}
                         </Badge>
                       )}

@@ -36,9 +36,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
+    <ClerkProvider>
+
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
-        <ClerkProvider>
           <ConvexClientProvider>
             <ThemeProvider
               attribute="class"
@@ -66,8 +67,10 @@ export default function RootLayout({
               <Toaster richColors/>
             </ThemeProvider>
           </ConvexClientProvider>
-        </ClerkProvider>
       </body>
     </html>
+
+    </ClerkProvider>
+
   )
 }
