@@ -1,7 +1,5 @@
 'use client'
 
-import ConversationContainer from '@/components/shared/conversation/ConversationContainer'
-import ConversationFallback from '@/components/shared/conversation/ConversationFallback'
 import ItemList from '@/components/shared/item-list/ItemList'
 import { api } from '@/convex/_generated/api'
 import { useQuery } from 'convex/react'
