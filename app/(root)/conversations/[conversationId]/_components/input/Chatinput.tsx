@@ -7,16 +7,13 @@ import useConversation from '@/hooks/useConversation'
 import { useMutationState } from '@/hooks/useMutationState'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ConvexError } from 'convex/values'
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import z from 'zod'
+import { z } from 'zod'
 import TextareaAutosize from 'react-textarea-autosize'
 import { Button } from '@/components/ui/button'
 import { SendHorizonal } from 'lucide-react'
-
-
-type Props = {}
 
 const chatMessageSchema = z.object({
   content: z.string().min(1, {
@@ -24,22 +21,13 @@ const chatMessageSchema = z.object({
   })
 })
 
-const Chatinput = (props: Props) => {
+type ChatInputProps = {
+  conversationId: string
+}
 
-
+const Chatinput = ({ conversationId }: ChatInputProps) => {
   const textareaRef = React.useRef<HTMLTextAreaElement | null>(null)
-
-
-
-  const { conversationId } =
-    useConversation();
-
-
-
-  const { mutate: createMessage
-    , pending
-  } = useMutationState(api.message.create)
-
+  const { mutate: createMessage, pending } = useMutationState(api.message.create)
 
   const form = useForm<z.infer<typeof chatMessageSchema>>({
     resolver: zodResolver(chatMessageSchema),
@@ -48,76 +36,65 @@ const Chatinput = (props: Props) => {
     }
   })
 
-  const handleInputChange = (event: any) => {
-    const { value, selectionStart } = event.target;
-
+  const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const { value, selectionStart } = event.target
     if (selectionStart !== null) {
       form.setValue('content', value)
-
     }
   }
 
-
   const handleSubmit = async (values: z.infer<typeof chatMessageSchema>) => {
-
     createMessage({
       conversationId,
       type: 'text',
       content: [values.content]
     }).then(() => {
-      form.reset();
+      form.reset()
     }).catch((error) => {
-      toast.error instanceof ConvexError ? error.data
-        : "Unexpected error occurred"
+      if (error instanceof ConvexError) {
+        toast.error(error.data as string)
+      } else {
+        toast.error("Unexpected error occurred")
+      }
     })
   }
+
   return (
-    <Card className='w-full p-2 rounded-lg relative '>
-      <div className='flex gap-2 items-end w-full'>
+    <Card className="w-full p-2 rounded-lg relative">
+      <div className="flex gap-2 items-end w-full">
         <Form {...form}>
-  
-          <form  onSubmit={
-            form.handleSubmit(handleSubmit)
-          }
-            className='w-full flex gap-2 justify-between' >
+          <form 
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="w-full flex gap-2 justify-between"
+          >
             <FormField
               control={form.control}
-              name='content'
-              
-              render={({ field }) => {
-
-                return <FormItem className='w-full'>
-                  <FormControl className='w-full'>
+              name="content"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormControl className="w-full">
                     <TextareaAutosize 
                       onKeyDown={async (e) => {
                         if (e.key === 'Enter' && !e.shiftKey) {
-                          e.preventDefault();
-                          await form.handleSubmit(handleSubmit)();
+                          e.preventDefault()
+                          await form.handleSubmit(handleSubmit)()
                         }
                       }}
                       rows={1}
                       maxRows={3}
                       {...field}
-                      onChange={
-                        handleInputChange}
-                      onClick={handleInputChange}
-                      placeholder='Type a message'
-                      className='min-h-full w-full resize-none border-0 outline-0 bg-card text-card-foreground
-                    placeholder:text-muted-foreground p-1.5'
-
-
+                      onChange={handleInputChange}
+                      onClick={() => handleInputChange}
+                      placeholder="Type a message"
+                      className="min-h-full w-full resize-none border-0 outline-0 bg-card text-card-foreground placeholder:text-muted-foreground p-1.5"
                     />
                   </FormControl>
                 </FormItem>
-
-              }}
+              )}
             />
-            <Button disabled={pending} type='submit' className='' size='icon'>
-              <SendHorizonal/>
+            <Button disabled={pending} type="submit" size="icon">
+              <SendHorizonal />
             </Button>
-
-            
-
           </form>
         </Form>
       </div>
