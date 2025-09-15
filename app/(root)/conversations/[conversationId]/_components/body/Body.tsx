@@ -7,9 +7,9 @@ import { useQuery } from 'convex/react'
 import React from 'react'
 import Message from './Message'
 
-type Props = {}
+// type Props = {}
 
-const Body = (props: Props) => {
+const Body = () => {
 
   const { conversationId } = useConversation()
 

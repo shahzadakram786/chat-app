@@ -72,22 +72,23 @@ const Chatinput = (props: Props) => {
     })
   }
   return (
-    <Card className='w-full p-2 rounded-lg relative'>
+    <Card className='w-full p-2 rounded-lg relative '>
       <div className='flex gap-2 items-end w-full'>
         <Form {...form}>
-          ,
-          <form onSubmit={
+  
+          <form  onSubmit={
             form.handleSubmit(handleSubmit)
           }
-            className='w-full flex gap-2 items-end' >
+            className='w-full flex gap-2 justify-between' >
             <FormField
               control={form.control}
               name='content'
+              
               render={({ field }) => {
 
-                return <FormItem>
-                  <FormControl>
-                    <TextareaAutosize
+                return <FormItem className='w-full'>
+                  <FormControl className='w-full'>
+                    <TextareaAutosize 
                       onKeyDown={async (e) => {
                         if (e.key === 'Enter' && !e.shiftKey) {
                           e.preventDefault();
@@ -101,7 +102,7 @@ const Chatinput = (props: Props) => {
                         handleInputChange}
                       onClick={handleInputChange}
                       placeholder='Type a message'
-                      className='min-h-full  w-full resize-none border-0 outline-0 bg-card text-card-foreground
+                      className='min-h-full w-full resize-none border-0 outline-0 bg-card text-card-foreground
                     placeholder:text-muted-foreground p-1.5'
 
 
