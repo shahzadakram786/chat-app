@@ -13,6 +13,7 @@ import { z } from 'zod'
 import TextareaAutosize from 'react-textarea-autosize'
 import { Button } from '@/components/ui/button'
 import { SendHorizonal } from 'lucide-react'
+import useConversation from '@/hooks/useConversation'
 
 const chatMessageSchema = z.object({
   content: z.string().min(1, {
@@ -24,8 +25,11 @@ interface ChatInputProps {
   conversationId: string
 }
 
-const Chatinput = ({ conversationId }: ChatInputProps) => {
-  const textareaRef = React.useRef<HTMLTextAreaElement | null>(null)
+const Chatinput = () => {
+
+  const {conversationId} = useConversation()
+
+
   const { mutate: createMessage, pending } = useMutationState(api.message.create)
 
   const form = useForm<z.infer<typeof chatMessageSchema>>({
