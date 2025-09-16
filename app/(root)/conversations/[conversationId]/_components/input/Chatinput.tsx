@@ -3,17 +3,17 @@
 import { Card } from '@/components/ui/card'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { api } from '@/convex/_generated/api'
-import useConversation from '@/hooks/useConversation'
 import { useMutationState } from '@/hooks/useMutationState'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ConvexError } from 'convex/values'
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent, KeyboardEvent } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import TextareaAutosize from 'react-textarea-autosize'
 import { Button } from '@/components/ui/button'
 import { SendHorizonal } from 'lucide-react'
+import useConversation from '@/hooks/useConversation'
 
 const chatMessageSchema = z.object({
   content: z.string().min(1, {
@@ -21,12 +21,15 @@ const chatMessageSchema = z.object({
   })
 })
 
-type ChatInputProps = {
+interface ChatInputProps {
   conversationId: string
 }
 
-const Chatinput = ({ conversationId }: ChatInputProps) => {
-  const textareaRef = React.useRef<HTMLTextAreaElement | null>(null)
+const Chatinput = () => {
+
+  const {conversationId} = useConversation()
+
+
   const { mutate: createMessage, pending } = useMutationState(api.message.create)
 
   const form = useForm<z.infer<typeof chatMessageSchema>>({
@@ -43,6 +46,13 @@ const Chatinput = ({ conversationId }: ChatInputProps) => {
     }
   }
 
+  const handleKeyDown = async (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault()
+      await form.handleSubmit(handleSubmit)()
+    }
+  }
+
   const handleSubmit = async (values: z.infer<typeof chatMessageSchema>) => {
     createMessage({
       conversationId,
@@ -50,7 +60,7 @@ const Chatinput = ({ conversationId }: ChatInputProps) => {
       content: [values.content]
     }).then(() => {
       form.reset()
-    }).catch((error) => {
+    }).catch((error: unknown) => {
       if (error instanceof ConvexError) {
         toast.error(error.data as string)
       } else {
@@ -74,17 +84,11 @@ const Chatinput = ({ conversationId }: ChatInputProps) => {
                 <FormItem className="w-full">
                   <FormControl className="w-full">
                     <TextareaAutosize 
-                      onKeyDown={async (e) => {
-                        if (e.key === 'Enter' && !e.shiftKey) {
-                          e.preventDefault()
-                          await form.handleSubmit(handleSubmit)()
-                        }
-                      }}
+                      onKeyDown={handleKeyDown}
                       rows={1}
                       maxRows={3}
                       {...field}
                       onChange={handleInputChange}
-                      onClick={() => handleInputChange}
                       placeholder="Type a message"
                       className="min-h-full w-full resize-none border-0 outline-0 bg-card text-card-foreground placeholder:text-muted-foreground p-1.5"
                     />
