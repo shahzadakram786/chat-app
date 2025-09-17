@@ -8,10 +8,15 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { useNavigation } from '@/hooks/useNavigation';
 import { UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const DesktopNav = () => {
   const paths = useNavigation();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <Card className='hidden lg:h-full min-h-[300px] lg:flex lg:flex-col lg:justify-between lg:items-center lg:w-16 lg:px-2 lg:py-4'>
@@ -27,12 +32,11 @@ const DesktopNav = () => {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <div className="relative">
-                      {/* Remove the inner Link - keep only the Button with onClick navigation */}
                       <Button 
                         size="icon"
                         variant={path.active ? 'secondary' : 'outline'}
                         className={path.active ? "bg-blue-400 text-primary-foreground" : ""}
-                        asChild // This makes the Button render as a Link
+                        asChild
                       >
                         <Link href={path.href}>
                           <IconComponent />
@@ -57,7 +61,7 @@ const DesktopNav = () => {
       </nav>
       <div className='flex flex-col gap-4 items-center'>
         <ThemeToggle/>
-        <UserButton />
+        {isMounted && <UserButton />}
       </div>
     </Card>
   );
