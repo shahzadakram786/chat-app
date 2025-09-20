@@ -11,6 +11,8 @@ import Request from './_components/Request'
 
 type Props = Record<string, never>
 
+export const dynamic = 'force-dynamic';
+
 const FriendsPage = (props: Props) => {
 
 
