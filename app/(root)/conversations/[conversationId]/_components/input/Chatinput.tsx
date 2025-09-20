@@ -21,14 +21,8 @@ const chatMessageSchema = z.object({
   })
 })
 
-interface ChatInputProps {
-  conversationId: string
-}
-
 const Chatinput = () => {
-
   const {conversationId} = useConversation()
-
 
   const { mutate: createMessage, pending } = useMutationState(api.message.create)
 
