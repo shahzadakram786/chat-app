@@ -10,6 +10,7 @@ import Chatinput from './_components/input/Chatinput'
 import Body from './_components/body/Body'
 import Header from './_components/Header'
 import { redirect } from 'next/navigation'  // Import this for client-side redirect
+import RemoveFriendDialog from './_components/dialogs/RemoveFriendDialog'
 
 type Props = {
   params: Promise<{
@@ -20,6 +21,16 @@ type Props = {
 const ConversationPage = ({ params }: Props) => {
   const resolvedParams = use(params)
   const conversationId = resolvedParams.conversationId
+
+
+  const [removeFriendDialogOpen , setRemoveFriendDialogOpen] = React.useState(false)
+  const [deleteGroupDialogOpen , setDeleteGroupDialogOpen] = React.useState(false)
+  const [leaveGroupDialogOpen , setLeaveGroupDialogOpen] = React.useState(false)
+  const [callType , setCallType] = React.useState<"audio" | "video">("audio")
+
+
+
+
 
   // Early guard: Redirect if ID is invalid (prevents Convex query with bad arg)
   if (!conversationId || conversationId === 'undefined') {
@@ -46,9 +57,33 @@ const ConversationPage = ({ params }: Props) => {
 
   return (
     <ConversationContainer>
+      <RemoveFriendDialog 
+        conversationId={conversationId}
+        open={removeFriendDialogOpen}
+        setOpen={setRemoveFriendDialogOpen}
+      />
+        
       <Header 
         name={(conversation.isGroup ? conversation.name : conversation.otherMember.username) || ""}
         imageUrl={conversation.isGroup ? undefined : conversation.otherMember.imageUrl}
+        options={ conversation.isGroup ? [
+          {
+            label: "Leave Group",
+            destructive: true,
+            onClick: () => setLeaveGroupDialogOpen(true)
+          },
+          {
+            label: "Delete Group",
+            destructive: true,
+            onClick: () => setDeleteGroupDialogOpen(true)
+          }
+        ] : [
+          {
+            label: "Remove Friend",
+            destructive: true,
+            onClick: () => setRemoveFriendDialogOpen(true)
+          }
+        ]}
       />
       <Body/>
       <Chatinput/>
