@@ -1,6 +1,8 @@
 import { ConvexError } from "convex/values";
 import { getUserByClerkId } from "./_utils";
-import { query } from "./_generated/server";
+import { MutationCtx, query, QueryCtx } from "./_generated/server";
+import { Query } from "convex/server";
+import { Id } from "./_generated/dataModel";
 
 export const get = query({ args:{},
 
@@ -92,4 +94,17 @@ export const get = query({ args:{},
 
     }
 
+
 })
+
+
+const getLastMessageDetails = async ({
+    ctx , 
+    id }:{
+        ctx: QueryCtx | MutationCtx;
+        id: Id<"messages"> | undefined;
+    }) => {
+
+        if(!id) return null;
+
+}
